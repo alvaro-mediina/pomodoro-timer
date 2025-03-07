@@ -18,7 +18,7 @@ const TomatoModel = () => {
     <primitive
       ref={meshRef}
       object={gltf.scene}
-      scale={[100, 100, 100]}
+      scale={[70, 70, 70]}
       position={[0, 30, 0]}
     />
   );
@@ -38,7 +38,7 @@ const Tomato3D = () => {
       style={{ width: '100%', height: '500px' }}
       camera={{ position: [0, 0, 320], fov:30}}
     >
-      <ambientLight intensity={1.4} />
+      <ambientLight intensity={2} />
       <pointLight position={[2, 2, 2]} />
       {isLoaded && <TomatoModel />}
       <OrbitControls enableZoom={false} />
