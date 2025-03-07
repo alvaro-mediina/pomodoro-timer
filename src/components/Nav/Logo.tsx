@@ -1,6 +1,6 @@
 const Logo = () => {
     return(
-        <div className="w-60 h-full text-white flex flex-col  justify-center items-center">
+        <div className="w-60 h-full text-white flex flex-col  justify-center items-center select-none">
             <h1 className="w-full extrabold text-3xl text-center">POMODORO</h1>
             <div className="w-full light text-xl flex flex-row justify-center items-center gap-3 ">
                 <h2>🍅</h2>
