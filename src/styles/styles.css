@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap');
+@import "tailwindcss";
+
+:root{
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Paleta de Colores */
+@theme{
+    --color-background: #1f1f1f;
+    --color-background1: #101010;
+    --color-CuteRed: #F02B1C;
+    --color-CuteGray: #D9D9D9;
+}
+
+/* Definición de tipos de fuente */
+.light{
+    font-weight: 300;
+}
+
+.regular{
+    font-weight: 400;
+}
+
+.bold{
+    font-weight: 700;
+}
+
+.extrabold{
+    font-weight: 800;
+}
