@@ -19,7 +19,7 @@ const TomatoModel = () => {
       ref={meshRef}
       object={gltf.scene}
       scale={[70, 70, 70]}
-      position={[0, 30, 0]}
+      position={[0, 10, 0]}
     />
   );
 };
@@ -35,11 +35,14 @@ const Tomato3D = () => {
 
   return (
     <Canvas
-      style={{ width: '100%', height: '500px' }}
-      camera={{ position: [0, 0, 320], fov:30}}
+      style={{ width: '90%', height: '500px'}}
+      camera={{ position: [0, 0, 320], fov:25}}
     >
-      <ambientLight intensity={2} />
-      <pointLight position={[2, 2, 2]} />
+      <ambientLight intensity={1} />
+      <directionalLight position={[5, 5, 30]} intensity={2} />
+      <directionalLight position={[-5, -5, 30]} intensity={2} />
+      <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
+      <pointLight position={[0, 10, 0]} intensity={2} />
       {isLoaded && <TomatoModel />}
       <OrbitControls enableZoom={false} />
     </Canvas>
