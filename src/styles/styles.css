@@ -29,3 +29,12 @@
 .extrabold{
     font-weight: 800;
 }
+
+/* Home */
+.tomato-container{
+    @apply h-100 bg-white transition-transform duration-300 ease-in-out hover:scale-110 hover:rotate-12;
+}
+
+.button{
+    @apply bg-CuteRed mt-10 text-white py-4 px-20 rounded-4xl drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] hover:bg-red-800;
+}
