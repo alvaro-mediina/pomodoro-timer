@@ -26,7 +26,7 @@ const TomatoModel = () => {
 
 const Tomato3D = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 155] as [number, number, number], fov: 30 });
+  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 150] as [number, number, number], fov: 40 });
 
   useEffect(() => {
     const updateCameraSettings = () => {
@@ -38,7 +38,7 @@ const Tomato3D = () => {
       } else if (width >= 768 && width < 1024) {
         setCameraSettings({ position: [0, 10, 100], fov: 50 }); // md
       } else {
-        setCameraSettings({ position: [0, 50, 190], fov: 30 }); // lg
+        setCameraSettings({ position: [50, 50, 190], fov: 30 }); // lg
       }
     };
 
