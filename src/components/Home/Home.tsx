@@ -3,7 +3,7 @@ import Tomato3D from "./Tomato3D";
 
 function Home () {
     return(
-        <div className="min-h-screen min-w-[400px] flex flex-col flex-start  sm:pb-10 lg:min-h-fit lg:pb-0 ">
+        <div className="min-h-screen min-w-[400px] flex flex-col flex-start  sm:pb-10 lg:pb-0 ">
             <main className="w-full flex flex-col flex-grow justify-center items-center sm:flex-col md:flex-col lg:flex-row ">
                 <Tomato3D/>
                 <div className="w-full flex flex-col items-center justify-between text-center lg:mr-30">
