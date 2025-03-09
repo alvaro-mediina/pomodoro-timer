@@ -3,7 +3,7 @@ import Tomato3D from "./Tomato3D";
 
 function Home () {
     return(
-        <div className="min-h-screen bg-background flex flex-col overflow-x-hidden overflow-y-auto sm:pb-10">
+        <div className="min-h-screen bg-background flex flex-col overflow-x-hidden overflow-y-auto sm:pb-10 lg:pb-0">
             <Nav/>
             <main className="flex flex-row flex-grow justify-center items-center sm:flex-col md:flex-col lg:flex-row ">
                 <Tomato3D/>

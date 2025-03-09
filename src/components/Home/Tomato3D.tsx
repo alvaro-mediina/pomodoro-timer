@@ -38,7 +38,7 @@ const Tomato3D = () => {
       } else if (width >= 768 && width < 1024) {
         setCameraSettings({ position: [0, 10, 100], fov: 50 }); // md
       } else {
-        setCameraSettings({ position: [50, 50, 190], fov: 30 }); // lg
+        setCameraSettings({ position: [0, 30, 200], fov: 30 }); // lg
       }
     };
 
@@ -55,7 +55,7 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <div className="relative w-[100%] h-[500px] sm:h-[400px] lg:h-[500px] lg:w-[90%]">
+    <div className="relative w-[100%] h-500px sm:h-[400px] lg:h-[450px] lg:w-[90%] ml-15 bg-amber-50">
       <Canvas
         className="w-full h-full"
         camera={cameraSettings}
