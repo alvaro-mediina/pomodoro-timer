@@ -19,13 +19,34 @@ const TomatoModel = () => {
       ref={meshRef}
       object={gltf.scene}
       scale={[70, 70, 70]}
-      position={[0, 10, 0]}
+      position={[0, 0, 0]}
     />
   );
 };
 
 const Tomato3D = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 155] as [number, number, number], fov: 30 });
+
+  useEffect(() => {
+    const updateCameraSettings = () => {
+      const width = window.innerWidth;
+      if(width < 640){
+        setCameraSettings({ position: [0 , 0, 150], fov: 40}); //small sm xd
+      }else if (width >= 640 && width < 768) {
+        setCameraSettings({ position: [0, 0, 130], fov: 40 }); // sm
+      } else if (width >= 768 && width < 1024) {
+        setCameraSettings({ position: [0, 10, 100], fov: 50 }); // md
+      } else {
+        setCameraSettings({ position: [0, 50, 190], fov: 30 }); // lg
+      }
+    };
+
+    updateCameraSettings();
+    window.addEventListener("resize", updateCameraSettings);
+
+    return () => window.removeEventListener("resize", updateCameraSettings);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -34,18 +55,20 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <Canvas
-      style={{ width: '90%', height: '500px'}}
-      camera={{ position: [0, 0, 320], fov:25}}
-    >
-      <ambientLight intensity={1} />
-      <directionalLight position={[5, 5, 30]} intensity={2} />
-      <directionalLight position={[-5, -5, 30]} intensity={2} />
-      <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
-      <pointLight position={[0, 10, 0]} intensity={2} />
-      {isLoaded && <TomatoModel />}
-      <OrbitControls enableZoom={false} />
-    </Canvas>
+    <div className="relative w-[100%] h-[500px] sm:h-[400px] lg:h-[500px] lg:w-[90%]">
+      <Canvas
+        className="w-full h-full"
+        camera={cameraSettings}
+      >
+        <ambientLight intensity={1} />
+        <directionalLight position={[5, 5, 30]} intensity={2} />
+        <directionalLight position={[-5, -5, 30]} intensity={2} />
+        <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
+        <pointLight position={[0, 10, 0]} intensity={2} />
+        {isLoaded && <TomatoModel />}
+        <OrbitControls enableZoom={false} />
+      </Canvas>
+    </div>
   );
 };
 
