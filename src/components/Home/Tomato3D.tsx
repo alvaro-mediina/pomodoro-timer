@@ -3,6 +3,7 @@ import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
+import { div } from 'three/tsl';
 
 const TomatoModel = () => {
   const gltf = useLoader(GLTFLoader, '/model/tomate-model.glb');
@@ -34,18 +35,20 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <Canvas
-      style={{ width: '90%', height: '500px'}}
-      camera={{ position: [0, 0, 320], fov:25}}
-    >
-      <ambientLight intensity={1} />
-      <directionalLight position={[5, 5, 30]} intensity={2} />
-      <directionalLight position={[-5, -5, 30]} intensity={2} />
-      <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
-      <pointLight position={[0, 10, 0]} intensity={2} />
-      {isLoaded && <TomatoModel />}
-      <OrbitControls enableZoom={false} />
-    </Canvas>
+    <div className="w-[90%] h-[500px] sm:w-[80%] md:w-[70%] lg:w-[70%] ml-20">
+      <Canvas
+        className="w-full h-full"
+        camera={{ position: [0, 0, 280], fov:25}}
+      >
+        <ambientLight intensity={1} />
+        <directionalLight position={[5, 5, 30]} intensity={2} />
+        <directionalLight position={[-5, -5, 30]} intensity={2} />
+        <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
+        <pointLight position={[0, 10, 0]} intensity={2} />
+        {isLoaded && <TomatoModel />}
+        <OrbitControls enableZoom={false} />
+      </Canvas>
+    </div>
   );
 };
 
