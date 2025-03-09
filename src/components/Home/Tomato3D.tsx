@@ -3,7 +3,6 @@ import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { div } from 'three/tsl';
 
 const TomatoModel = () => {
   const gltf = useLoader(GLTFLoader, '/model/tomate-model.glb');
@@ -20,13 +19,34 @@ const TomatoModel = () => {
       ref={meshRef}
       object={gltf.scene}
       scale={[70, 70, 70]}
-      position={[0, 10, 0]}
+      position={[0, 0, 0]}
     />
   );
 };
 
 const Tomato3D = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 155] as [number, number, number], fov: 30 });
+
+  useEffect(() => {
+    const updateCameraSettings = () => {
+      const width = window.innerWidth;
+      if(width < 640){
+        setCameraSettings({ position: [0 , 0, 150], fov: 40}); //small sm xd
+      }else if (width >= 640 && width < 768) {
+        setCameraSettings({ position: [0, 0, 130], fov: 40 }); // sm
+      } else if (width >= 768 && width < 1024) {
+        setCameraSettings({ position: [0, 10, 100], fov: 50 }); // md
+      } else {
+        setCameraSettings({ position: [0, 50, 190], fov: 30 }); // lg
+      }
+    };
+
+    updateCameraSettings();
+    window.addEventListener("resize", updateCameraSettings);
+
+    return () => window.removeEventListener("resize", updateCameraSettings);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,10 +55,10 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <div className="w-[90%] h-[500px] sm:w-[80%] md:w-[70%] lg:w-[70%] ml-20">
+    <div className="relative w-[100%] h-[500px] sm:h-[400px] lg:h-[500px] lg:w-[90%]">
       <Canvas
         className="w-full h-full"
-        camera={{ position: [0, 0, 280], fov:25}}
+        camera={cameraSettings}
       >
         <ambientLight intensity={1} />
         <directionalLight position={[5, 5, 30]} intensity={2} />
