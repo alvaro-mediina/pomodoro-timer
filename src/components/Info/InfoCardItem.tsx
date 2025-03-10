@@ -2,7 +2,7 @@ import { Card } from "../../models/utils-models";
 
 const InfoCardItem = (card: Omit<Card, "id">) => {
     return (
-        <div className="w-[380px] h-[300px] flex flex-col bg-CuteGray rounded-2xl overflow-hidden">
+        <div className="w-[350px] h-[400px] flex flex-col bg-CuteGray rounded-2xl overflow-hidden">
             <div className="w-full h-[50%] overflow-hidden">
                 <img src={card.img} alt={card.title} className="w-full h-full object-cover" />
             </div>
