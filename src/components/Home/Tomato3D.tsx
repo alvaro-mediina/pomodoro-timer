@@ -26,19 +26,19 @@ const TomatoModel = () => {
 
 const Tomato3D = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 155] as [number, number, number], fov: 30 });
+  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 150] as [number, number, number], fov: 40 });
 
   useEffect(() => {
     const updateCameraSettings = () => {
       const width = window.innerWidth;
       if(width < 640){
-        setCameraSettings({ position: [0 , 0, 150], fov: 40}); //small sm xd
+        setCameraSettings({ position: [0 , 0, 130], fov: 40}); //small sm xd
       }else if (width >= 640 && width < 768) {
         setCameraSettings({ position: [0, 0, 130], fov: 40 }); // sm
       } else if (width >= 768 && width < 1024) {
         setCameraSettings({ position: [0, 10, 100], fov: 50 }); // md
       } else {
-        setCameraSettings({ position: [0, 50, 190], fov: 30 }); // lg
+        setCameraSettings({ position: [0, 30, 190], fov: 30 }); // lg
       }
     };
 
@@ -55,7 +55,7 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <div className="relative w-[100%] h-[500px] sm:h-[400px] lg:h-[500px] lg:w-[90%]">
+    <div className="relative w-[100%] h-[400px] mb-10 sm:h-[400px] sm:mb-0 md:mb-0 lg:h-[400px] lg:w-[90%] lg:ml-15">
       <Canvas
         className="w-full h-full"
         camera={cameraSettings}
