@@ -6,17 +6,23 @@ import Info from "./components/Info/Info";
 
 function App() {
   const [scrolledInfo, setScrolledInfo] = useState(false);
-  const infoRef = useRef<HTMLDivElement>(null);
 
+  //Manejar el color de la navbar
   useEffect(() => {
+    const infoSection = document.getElementById("info-section");
+    if (!infoSection) return;
+
+    const infoTop = infoSection.offsetTop;
+
     const handleScroll = () => {
-      if (infoRef.current) {
-        const rect = infoRef.current.getBoundingClientRect();
-        setScrolledInfo(rect.top <= 50 && rect.bottom >= 50);
-      }
+      const scrollY = window.scrollY;
+      setScrolledInfo(scrollY + 50 >= infoTop);
     };
 
     window.addEventListener("scroll", handleScroll);
+    
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -24,7 +30,7 @@ function App() {
     <div className="bg-background flex flex-col overflow-x-hidden overflow-y-auto">
       <Nav scrolledInfo={scrolledInfo} />
       <Home />
-      <div ref={infoRef}>
+      <div id="info-section">
         <Info />
       </div>
     </div>
