@@ -66,7 +66,7 @@ const Tomato3D = () => {
         <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
         <pointLight position={[0, 10, 0]} intensity={2} />
         {isLoaded && <TomatoModel />}
-        <OrbitControls enableZoom={false} />
+        <OrbitControls enableZoom={false} enableRotate={false} enablePan={false} />
       </Canvas>
     </div>
   );
