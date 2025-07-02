@@ -31,7 +31,7 @@ function Buttoner({ start, time, setTime}: ButtonerProps) {
         <div className="flex flex-wrap items-center gap-2 md:flex-row">
             <Button className="bg-CuteRed" disabled={start} onClick={classicConfig}>Clásico</Button>
             <Button className="bg-CuteGold" disabled={start} onClick={intenseConfig}>Intenso</Button>
-            <Button className="bg-fuchsia-500" disabled={start} onClick={TheMuseConfig}>The Muse</Button>
+            <Button className="bg-CuteFuchsia" disabled={start} onClick={TheMuseConfig}>The Muse</Button>
             <Button className="bg-CuteGreen" disabled={start} onClick={FlowConfig}>Modo Flow</Button>
         </div>    
     )
