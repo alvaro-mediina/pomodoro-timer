@@ -1,20 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import type { PomodoroProps } from "@/utils/Constants";
 
-type PomodoroProps = {
-    init: boolean;
-}
-
-function Pomodoro({ init }: PomodoroProps) {
-    const [timeLeft, setTimeLeft] = useState(3600);
+function Pomodoro({ start , time } : PomodoroProps) {
+    const [timeLeft, setTimeLeft] = useState(time);
     const intervalRef = useRef<number | null>(null);
 
+    // Cambios de tiempo antes de empezar
+    useEffect(() => {
+        if (!start) {
+            setTimeLeft(time)
+        }
+    }, [time])
+
+    // Cambios de tiempo uno a uno
     useEffect(() => { 
-        if (!init) return;
+        if (!start) return;
         if (intervalRef.current !== null) return;
         intervalRef.current = window.setInterval(() => {
         setTimeLeft((prev) => Math.max(prev - 1, 0)); 
         }, 1000);
-    },[init])
+    },[start, time])
 
     return (
         <div>
@@ -25,7 +30,7 @@ function Pomodoro({ init }: PomodoroProps) {
                     .map((char, i) => (
                     <span
                         key={i}
-                        className="inline-block w-[6rem] text-center"
+                        className="select-none inline-block w-[6rem] text-center"
                     >
                         {char}
                     </span>

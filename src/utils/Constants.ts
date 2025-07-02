@@ -33,3 +33,23 @@ export const DataCards: Card[] = [
         img: Memoria,
     }
 ];
+
+// Propiedades del POMODORO
+export type Start = boolean;
+export const CLASSIC = 25 * 60;
+export const INTENSE = 50 * 60;
+export const THEMUSE = 52 * 60;
+export const FLOW = 0;
+
+
+export enum PomodoroMode {
+  Classic = CLASSIC,
+  Intense = INTENSE,
+  Muse = THEMUSE,
+  Flow = FLOW,
+}
+
+export type PomodoroProps = {
+    start: Start;
+    time: PomodoroMode;
+}
