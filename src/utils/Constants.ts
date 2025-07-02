@@ -53,3 +53,10 @@ export type PomodoroProps = {
     start: Start;
     time: PomodoroMode;
 }
+
+export type ButtonerProps = {
+    start: boolean;
+    time: PomodoroMode;
+    setStart: React.Dispatch<React.SetStateAction<boolean>>;
+    setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>;
+};
