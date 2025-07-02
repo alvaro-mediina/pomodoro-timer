@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Pomodoro from "./pages/Pomodoro";
+import Pomopage from "./pages/Pomopage";
 import Homepage from "./pages/Homepage";
 import "./styles/App.css";
 
@@ -10,7 +10,7 @@ function App() {
     <div className="bg-background flex flex-col overflow-x-hidden overflow-y-auto">
       <Routes>
         {/* <Route path="/" element={<Homepage />} /> */}
-        <Route path="/" element={<Pomodoro/>}/>
+        <Route path="/" element={<Pomopage/>}/>
       </Routes>
     </div>
   );
