@@ -1,11 +1,12 @@
 import Pomodoro from "@/components/Pomopage/Pomodoro";
 import { useState } from "react"
 import Buttoner from "@/components/Pomopage/Buttoner/Buttoner";
-import { Start, PomodoroMode } from "@/utils/Constants";
+import { Start, PomodoroMode, PomodoroModes } from "@/utils/Constants";
 
 function Pomopage() {
     const [start, setStart] = useState<Start>(false);
-    const [time, setTime] = useState<PomodoroMode>(PomodoroMode.Classic);
+    const [time, setTime] = useState<PomodoroMode>(PomodoroModes.Classic);
+
 
     const startTimer = () => {
         setStart(true);
@@ -17,7 +18,7 @@ function Pomopage() {
                 <Buttoner start={start} time={time} setStart={setStart} setTime={setTime} />
             </div>
             <div className="w-full h-full flex flex-col justify-center items-center">
-                <Pomodoro start={start} time={time} />
+                <Pomodoro start={start} time={time}/>
                 <div className="flex justify-center p-6">
                     <button className="button" onClick={startTimer}>COMENZAR</button>
                 </div>

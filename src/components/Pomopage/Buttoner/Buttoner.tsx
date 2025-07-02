@@ -1,30 +1,30 @@
-import { ButtonerProps, PomodoroMode } from "@/utils/Constants";
+import { ButtonerProps, PomodoroModes } from "@/utils/Constants";
 import { Button } from "../../ui/button";
 
 function Buttoner({ start, time, setTime}: ButtonerProps) {
 
     const classicConfig = () => {
         if (start) return;
-        if (time === PomodoroMode.Classic) return;
-        setTime(PomodoroMode.Classic)
+        if (time === PomodoroModes.Classic) return;
+        setTime(PomodoroModes.Classic)
     }
 
     const intenseConfig = () => {
         if (start) return;
-        if (time === PomodoroMode.Intense) return;
-        setTime(PomodoroMode.Intense)
+        if (time === PomodoroModes.Intense) return;
+        setTime(PomodoroModes.Intense)
     }
 
     const TheMuseConfig = () => {
         if (start) return;
-        if (time === PomodoroMode.Muse) return;
-        setTime(PomodoroMode.Muse)
+        if (time === PomodoroModes.Muse) return;
+        setTime(PomodoroModes.Muse)
     }
 
     const FlowConfig = () => {
         if (start) return;
-        if (time === PomodoroMode.Flow) return;
-        setTime(PomodoroMode.Flow)
+        if (time === PomodoroModes.Flow) return;
+        setTime(PomodoroModes.Flow)
     }
 
     return (

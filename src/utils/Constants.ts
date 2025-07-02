@@ -34,29 +34,54 @@ export const DataCards: Card[] = [
     }
 ];
 
-// Propiedades del POMODORO
+// Constantes del Pomodoro
 export type Start = boolean;
 export const CLASSIC = 25 * 60;
 export const INTENSE = 50 * 60;
 export const THEMUSE = 52 * 60;
 export const FLOW = 0;
 
+// Constantes del descanso;
+export const BREAK_SHORT = 5 * 60;
+export const BREAK_MEDIUM = 10 * 60;
+export const BREAK_MUSE = 17 * 60;
+export const BREAK_LONG = 15 * 60;
 
-export enum PomodoroMode {
-  Classic = CLASSIC,
-  Intense = INTENSE,
-  Muse = THEMUSE,
-  Flow = FLOW,
+
+export const WORK = "work"
+export const BREAK = "break"
+
+// Modos de Pomodoro
+export const PomodoroModes = {
+    Classic: { work: CLASSIC, break: BREAK_SHORT },
+    Intense: { work: INTENSE, break: BREAK_MEDIUM },
+    Muse: { work: THEMUSE, break: BREAK_MUSE },
+    Flow: { work: FLOW, break: FLOW },
+} as const;
+
+// Tipo que corresponde a cualquiera de los valores dentro de PomodoroModes.
+export type PomodoroMode = (typeof PomodoroModes)[keyof typeof PomodoroModes];
+
+
+export enum PomodoroPhases {
+    Work = WORK,
+    Break = BREAK,
 }
 
+// Propiedades del Pomodoro
 export type PomodoroProps = {
     start: Start;
     time: PomodoroMode;
 }
 
+// Propiedades para la botonera
 export type ButtonerProps = {
     start: boolean;
     time: PomodoroMode;
     setStart: React.Dispatch<React.SetStateAction<boolean>>;
     setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>;
 };
+
+// Fases del Pomodoro
+export type Phase = "work" | "break"
+
