@@ -19,9 +19,18 @@ function Pomodoro({ init }: PomodoroProps) {
     return (
         <div>
             <div className="flex justify-center items-center text-[10rem] font-[400] text-white">
-                <span>{String(Math.floor(timeLeft / 60)).padStart(2, "0")}</span>
-                <span>:</span>
-                <span>{String(timeLeft % 60).padStart(2, "0")}</span>
+                <span className="flex gap-2">
+                {`${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60).padStart(2, "0")}`
+                    .split("")
+                    .map((char, i) => (
+                    <span
+                        key={i}
+                        className="inline-block w-[6rem] text-center"
+                    >
+                        {char}
+                    </span>
+                    ))}
+                </span>
             </div>
         </div>
     )
