@@ -9,7 +9,7 @@ function App() {
     <div className="bg-background flex flex-col overflow-x-hidden overflow-y-auto">
 
       <Routes>
-        <Route path="/" element={<Homepage/>}>
+        <Route path="/" element={<Homepage />}>
         </Route>
       </Routes>
     </div>
