@@ -5,7 +5,9 @@ import { PomodoroPhases } from "@/utils/Constants";
 function Pomodoro({ start, time }: PomodoroProps) {
     const [timeLeft, setTimeLeft] = useState(time.work);
     const [phase, setPhase] = useState<PomodoroPhases>(PomodoroPhases.Work);
+    const [completedSession, setCompletedSession] = useState(0);
     const intervalRef = useRef<number | null>(null);
+
 
     // Resetea el tiempo cuando cambia el modo y no está corriendo
     useEffect(() => {
@@ -14,32 +16,46 @@ function Pomodoro({ start, time }: PomodoroProps) {
         }
     }, [time, phase, start]);
 
-    // Lógica de cuenta regresiva
+    //Lógica del timer
     useEffect(() => {
         if (!start) return;
         if (intervalRef.current !== null) return;
 
+        // Restar 1 segundo
         intervalRef.current = window.setInterval(() => {
             setTimeLeft(prev => {
                 if (prev === 0) {
-                    const nextPhase =
-                        phase === PomodoroPhases.Work
-                            ? PomodoroPhases.Break
-                            : PomodoroPhases.Work;
-                    setPhase(nextPhase);
-                    return nextPhase === PomodoroPhases.Work ? time.work : time.break;
+                    handlePhaseSwitch();
+                    return 0; // Esperamos a que el switch setee el tiempo
                 }
                 return prev - 1;
             });
-    }, 1000);
+        }, 1000);
 
         return () => {
             if (intervalRef.current !== null) {
                 clearInterval(intervalRef.current);
                 intervalRef.current = null;
             }
-            };
+        };
     }, [start]);
+
+    // Manejo de la Fase Work o Break
+    const handlePhaseSwitch = () => {
+        setPhase(prevPhase => {
+            const nextPhase =
+            prevPhase === PomodoroPhases.Work
+                ? PomodoroPhases.Break
+                : PomodoroPhases.Work;
+
+            if (prevPhase === PomodoroPhases.Work) {
+            setCompletedSession(prev => prev + 1);
+            }
+
+            setTimeLeft(nextPhase === PomodoroPhases.Work ? time.work : time.break);
+            return nextPhase;
+        });
+    };
 
     return (
         <div>
