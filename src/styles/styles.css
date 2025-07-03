@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Savate&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800;1000&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -10,6 +11,9 @@
     --color-background1: #101010;
     --color-CuteRed: #F02B1C;
     --color-CuteGray: #D9D9D9;
+    --color-CuteGreen: #58d68d;
+    --color-CuteGold: #FFD700;
+    --color-CuteFuchsia: #D946EF;
 }
 
 :root{
