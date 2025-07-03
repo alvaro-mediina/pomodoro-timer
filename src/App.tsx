@@ -9,8 +9,8 @@ function App() {
   return (
     <div className="bg-background flex flex-col overflow-x-hidden overflow-y-auto">
       <Routes>
-        {/* <Route path="/" element={<Homepage />} /> */}
-        <Route path="/" element={<Pomopage/>}/>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/pomodoro" element={<Pomopage/>}/>
       </Routes>
     </div>
   );
