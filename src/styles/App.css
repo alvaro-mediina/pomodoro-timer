@@ -1,7 +1,30 @@
-.scrollbar-hide {
+/* Un poco de CSS puro porque se complicó una bocha con el scroll
+  la persistencia del tomate3D y las posiciones de cada div */
+
+.homepage-container {
+  position: fixed;
+  top: 0; 
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* IE y Edge */
+  transition: opacity 0.5s ease;
+
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari y Opera */
+
+.homepage-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.homepage-container.active {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
 }
