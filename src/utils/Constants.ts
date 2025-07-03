@@ -74,6 +74,10 @@ export type PomodoroProps = {
     time: PomodoroMode;
 }
 
+export type PomoFlowProps = {
+    start: Start;
+}
+
 // Propiedades para la botonera
 export type ButtonerProps = {
     start: boolean;
