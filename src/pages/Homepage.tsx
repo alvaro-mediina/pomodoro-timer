@@ -6,24 +6,31 @@ import { useState,useEffect } from "react";
 function Homepage() {
     const [scrolledInfo, setScrolledInfo] = useState(false);
 
+    // Manejo del cambio de color del Nav
     useEffect(() => {
-    const infoSection = document.getElementById("info-section");
-    if (!infoSection) return;
+        const scrollContainer = document.getElementById("scrollbar-hide") ||
+            document.querySelector(".homepage-container");
+        if (!scrollContainer) return;
 
-    const infoTop = infoSection.offsetTop;
+        const infoSection = document.getElementById("info-section");
+        if (!infoSection) return;
 
-    const handleScroll = () => {
-        const scrollY = window.scrollY;
-        setScrolledInfo(scrollY + 50 >= infoTop);
-    };
+        const infoTop = infoSection.offsetTop;
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Estado inicial
+        const handleScroll = () => {
+            // scrollY relativo al scrollContainer
+            const scrollY = scrollContainer.scrollTop;
+            setScrolledInfo(scrollY + 50 >= infoTop);
+        };
 
-    return () => window.removeEventListener("scroll", handleScroll); }, []);
+        scrollContainer.addEventListener("scroll", handleScroll);
+        handleScroll(); // Estado inicial
+
+        return () => scrollContainer.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
-    <div className="bg-background flex flex-col overflow-x-hidden overflow-y-auto">
+    <div className="bg-background flex flex-col overflow-x-hidden">
         <Nav scrolledInfo={scrolledInfo} />
         <Home />
         <div id="info-section">
