@@ -3,24 +3,31 @@ import Pomopage from "./pages/Pomopage";
 import Homepage from "./pages/Homepage";
 import "./styles/App.css";
 
-
 function App() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-background">
-          <div
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              isHome ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <Homepage />
-          </div>
-          <main className="relative z-10">
-            <Routes>
-              <Route path="/pomodoro" element={<Pomopage />} />
-            </Routes>
-          </main>
+    <div className="relative w-full bg-background scrollbar-hide">
+      <div
+        id="scroll-container"
+        className={`fixed inset-0 w-full h-full overflow-y-auto scrollbar-hide transition-opacity duration-500 ${
+          isHome ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+        style={{ pointerEvents: isHome ? "auto" : "none" }}
+      >
+        <Homepage />
+      </div>
+
+      <main
+        className={`relative z-10 min-h-screen transition-opacity duration-500 ${
+          isHome ? "opacity-0 invisible pointer-events-none" : "opacity-100 visible"
+        }`}
+      >
+        <Routes>
+          <Route path="/pomodoro" element={<Pomopage />} />
+        </Routes>
+      </main>
     </div>
   );
 }

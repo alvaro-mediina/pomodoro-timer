@@ -7,20 +7,24 @@ function Homepage() {
     const [scrolledInfo, setScrolledInfo] = useState(false);
 
     useEffect(() => {
-    const infoSection = document.getElementById("info-section");
-    if (!infoSection) return;
+        const scrollContainer = document.getElementById("scroll-container");
+        if (!scrollContainer) return;
 
-    const infoTop = infoSection.offsetTop;
+        const infoSection = document.getElementById("info-section");
+        if (!infoSection) return;
 
-    const handleScroll = () => {
-        const scrollY = window.scrollY;
+        const infoTop = infoSection.offsetTop;
+
+        const handleScroll = () => {
+        const scrollY = scrollContainer.scrollTop;
         setScrolledInfo(scrollY + 50 >= infoTop);
-    };
+        };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Estado inicial
+        scrollContainer.addEventListener("scroll", handleScroll);
+        handleScroll(); // Para estado inicial
 
-    return () => window.removeEventListener("scroll", handleScroll); }, []);
+        return () => scrollContainer.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
     <div className="bg-background flex flex-col overflow-x-hidden overflow-y-auto">
