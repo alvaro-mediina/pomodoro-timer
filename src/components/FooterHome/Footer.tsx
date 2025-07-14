@@ -5,7 +5,7 @@ function Footer() {
   return (
     <div className="w-full flex justify-end items-center pr-6 pb-6 md:-translate-y-5">
       <Link to="/pomodoro">
-        <div className="relative">
+        <div className="relative duration-300 hover:scale-105">
           <img
             className="absolute -top-4 -right-2 z-10 pointer-events-none"
             src={Alarm}
