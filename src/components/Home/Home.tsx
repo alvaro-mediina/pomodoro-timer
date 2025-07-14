@@ -1,9 +1,10 @@
 import Tomato3D from './Tomato3D';
+import Footer from '../FooterHome/Footer';
 
 function Home() {
   return (
-    <div className="h-full w-full flex-1 flex flex-col sm:pb-10 lg:pb-0 ">
-      <main className="relative w-full flex flex-col flex-grow justify-center items-center sm:flex-col md:flex-col lg:flex-row">
+    <div className="w-full h-full flex flex-col justify-between">
+      <main className="relative w-full flex flex-col justify-center items-center flex-grow">
         <div className="absolute z-0 -translate-x-80 -translate-y-20">
           <div className="flex flex-col text-white font-extrabold drop-shadow-[5px_2px_2px_rgba(0,0,0,0.5)]">
             <h1 className="text-[80px] m-0 leading-none">CONFIGURA</h1>
@@ -15,8 +16,10 @@ function Home() {
           <Tomato3D />
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
+
 
 export default Home;

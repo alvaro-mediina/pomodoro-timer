@@ -1,10 +1,19 @@
 import { Link } from 'react-router-dom';
+import Alarm from '@/assets/3d-alarm.png';
 
 function Footer() {
   return (
-    <div className="h-full bg-white flex justify-center items-center">
+    <div className="w-full flex justify-end items-center pr-6 pb-6 md:-translate-y-5">
       <Link to="/pomodoro">
-        <button className="button">COMENZAR</button>
+        <div className="relative">
+          <img
+            className="absolute -top-4 -right-2 z-10 pointer-events-none"
+            src={Alarm}
+            width={80}
+            alt="Alarm"
+          />
+          <button className="button">COMENZAR</button>
+        </div>
       </Link>
     </div>
   );
