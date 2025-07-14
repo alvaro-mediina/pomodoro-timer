@@ -18,7 +18,7 @@ const TomatoModel = () => {
     <primitive
       ref={meshRef}
       object={gltf.scene}
-      scale={[70, 70, 70]}
+      scale={[75, 75, 75]}
       position={[0, 0, 0]}
     />
   );
@@ -36,7 +36,7 @@ const Tomato3D = () => {
       }else if (width >= 640 && width < 768) {
         setCameraSettings({ position: [0, 0, 130], fov: 40 }); // sm
       } else if (width >= 768 && width < 1024) {
-        setCameraSettings({ position: [0, 10, 100], fov: 50 }); // md
+        setCameraSettings({ position: [0, 0, 100], fov: 50 }); // md
       } else {
         setCameraSettings({ position: [0, 30, 190], fov: 30 }); // lg
       }
@@ -55,7 +55,7 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <div className="w-[500px] h-[500px] mb-10 md:h-[450px]">
+    <div className="w-[500px] h-[400px]">
       <Canvas
         className="w-full h-full"
         camera={cameraSettings}
