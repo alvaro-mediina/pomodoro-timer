@@ -55,7 +55,7 @@ const Tomato3D = () => {
   }, []);
 
   return (
-    <div className="relative w-[100%] h-[400px] mb-10 sm:h-[400px] sm:mb-0 md:mb-0 lg:h-[400px] lg:w-[90%] lg:ml-15">
+    <div className="w-[500px] h-[500px] mb-10 md:h-[450px]">
       <Canvas
         className="w-full h-full"
         camera={cameraSettings}

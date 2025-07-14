@@ -4,7 +4,7 @@ interface LogoProps {
   
   const Logo = ({ className }: LogoProps) => {
     return (
-      <div className={`w-auto h-full ml-7 flex flex-col justify-center items-center select-none sm:ml-10 md:ml-15 lg:ml-20 ${className}`}>
+      <div className={`w-auto h-full flex flex-col justify-center items-center select-none ${className}`}>
         <h1 className={`w-full extrabold text-3xl text-center ${className}`}>POMODORO</h1>
         <div className={`w-full light text-xl flex flex-row justify-between items-center gap-3 ${className}`}>
           <h2>🍅</h2>

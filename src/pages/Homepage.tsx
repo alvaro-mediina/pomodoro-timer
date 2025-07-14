@@ -1,6 +1,7 @@
 import Nav from "../components/Nav/Nav";
 import Home from "../components/Home/Home";
 import Info from "../components/Info/Info";
+
 import { useState,useEffect } from "react";
 
 function Homepage() {
@@ -30,12 +31,9 @@ function Homepage() {
     }, []);
 
     return (
-    <div className="bg-background flex flex-col overflow-x-hidden">
+    <div className="bg-background flex flex-col min-h-screen">
         <Nav scrolledInfo={scrolledInfo} />
         <Home />
-        <div id="info-section">
-            <Info />
-        </div>
     </div>
     );
 }
