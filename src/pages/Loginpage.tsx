@@ -12,8 +12,32 @@ import { Label } from '@radix-ui/react-label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/Nav/Logo';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChangeEmail = (pseudoEmail: string) => {
+    setEmail(pseudoEmail);
+  };
+
+  const handleChangePassword = (pseudoPassword: string) => {
+    setPassword(pseudoPassword);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (error) {
+      console.error('Error al intentar iniciar sesión: ', error);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center gap-2">
       <Card
@@ -32,8 +56,8 @@ function LoginPage() {
             <Button variant="link">Registrarse</Button>
           </CardAction>
         </CardHeader>
-        <CardContent>
-          <form>
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+          <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Correo Electrónico</Label>
@@ -41,6 +65,9 @@ function LoginPage() {
                   id="email"
                   type="email"
                   placeholder="pomodoro@timer.com"
+                  onChange={(e) => {
+                    handleChangeEmail(e.target.value);
+                  }}
                   required
                 />
               </div>
@@ -54,16 +81,23 @@ function LoginPage() {
                     ¿Olvidaste tu contraseña?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  onChange={(e) => {
+                    handleChangePassword(e.target.value);
+                  }}
+                  required
+                />
               </div>
             </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full bg-CuteRed hover:bg-red-700">
-            Iniciar Sesión
-          </Button>
-        </CardFooter>
+          </CardContent>
+          <CardFooter className="flex-col gap-2">
+            <Button type="submit" className="w-full bg-CuteRed hover:bg-red-700">
+              Iniciar Sesión
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   );
