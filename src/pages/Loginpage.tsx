@@ -60,11 +60,8 @@ function LoginPage() {
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full bg-CuteRed hover:bg-red-700">
             Iniciar Sesión
-          </Button>
-          <Button variant="outline" className="w-full bg-CuteRed">
-            Iniciar Sesión desde Google
           </Button>
         </CardFooter>
       </Card>
