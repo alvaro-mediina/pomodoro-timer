@@ -1,31 +1,20 @@
-import Logo from "./Logo";
-import MenuWhite from "../../assets/menu-white.svg";
-import MenuBlack from "../../assets/menu-black.svg";
+import Logo from './Logo';
 
-interface NavProps {
-  scrolledInfo: boolean;
-}
-
-const Nav = ({ scrolledInfo }: NavProps) => {
+function Nav() {
   return (
     <nav
-      className={`fixed w-full h-20 flex flex-row justify-between items-center px-4 sm:text-xl z-50 transition-all duration-300 ${
-        scrolledInfo ? "bg-white text-black" : "bg-background text-white"
-      }`}
+      className="w-full h-20 flex flex-row justify-between items-center pt-2 pl-10 sm:text-xl z-50 
+      transition-all duration-300"
     >
-      <Logo className={scrolledInfo ? "text-black" : "text-white"} />
-
-      <div className="w-14 mr-7 flex justify-center items-center sm:mr-10 md:mr-15 lg:mr-20">
-        <a href="https://example.com" target="_blank" rel="noopener noreferrer">
-          <img
-            className="h-16 w-auto transition-all duration-300"
-            src={scrolledInfo ? MenuBlack : MenuWhite}
-            alt="Menu"
-          />
-        </a>
+        <Logo/>
+      <div className="pr-10 flex gap-3">
+        <button className="border-3 border-CuteRed text-white py-4 px-10 mt-2 rounded-xl 
+          drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] duration-300 hover:scale-105">Iniciar Sesión</button>
+        <button className="bg-CuteRed text-white py-4 px-10 mt-2 rounded-xl 
+          drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] duration-300 hover:scale-105">Registrarse</button>
       </div>
     </nav>
   );
-};
+}
 
 export default Nav;

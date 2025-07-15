@@ -7,10 +7,10 @@ const config: Config = {
     ],
     theme: {
         extend: {
-        fontFamily: {
-            montserrat: ['Montserrat', 'sans-serif'],
-            savate: ['Savate', 'sans-serif'],
-        },
+            fontFamily: {
+                montserrat: ['Montserrat', 'sans-serif'],
+                savate: ['Savate', 'sans-serif'],
+            },
         },
     },
     plugins: [],

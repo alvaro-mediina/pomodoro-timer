@@ -1,20 +1,28 @@
+import Tomato3D from './Tomato3D';
+import Footer from '../FooterHome/Footer';
+import { useState } from 'react';
 
-import { Link } from "react-router-dom";
-import Tomato3D from "./Tomato3D";
+function Home() {
+  const [isLogged, setIsLogged] = useState(true);
 
-function Home () {
-    return(
-        <div className="min-h-screen min-w-[400px] flex flex-col flex-start  sm:pb-10 lg:pb-0 ">
-            <main className="w-full flex flex-col flex-grow justify-center items-center sm:flex-col md:flex-col lg:flex-row ">
-                <Tomato3D/>
-                <div className="w-full flex flex-col items-center justify-between text-center lg:mr-30">
-                    <h1 className="extrabold text-white text-5xl bg-CuteRed px-5 py-2 rounded-2xl mb-5 lg:px-10 lg:text-6xl lg:py-0">POMODORO</h1>
-                    <h1 className="extrabold text-white text-4xl lg:text-5xl drop-shadow-[4px_4px_4px_rgba(0,0,0,0.5)]">CONCENTRACIÓN <br />EN SESIONES</h1>
-                    <Link to="/pomodoro"><button className="button">COMENZAR</button></Link>
-                </div>
-            </main>
+  return (
+    <div className="w-full h-full flex flex-col justify-between">
+      <main className="relative w-full flex flex-col justify-center items-center flex-grow">
+        <div className="absolute z-0 -translate-x-80 -translate-y-10">
+          <div className="flex flex-col text-white font-extrabold drop-shadow-[5px_2px_2px_rgba(0,0,0,0.5)]">
+            <h1 className="text-[80px] m-0 leading-none">CONFIGURA</h1>
+            <h1 className="text-[70px] text-CuteRed leading-none mt-1 mb-4">PLANIFICA</h1>
+            <h1 className="text-[40px] leading-none">CONCÉNTRATE</h1>
+          </div>
         </div>
-    );
+        <div className="z-10">
+          <Tomato3D />
+        </div>
+      </main>
+      <Footer isLogged={isLogged}/>
+    </div>
+  );
 }
+
 
 export default Home;

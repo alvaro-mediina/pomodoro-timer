@@ -85,7 +85,7 @@
 }
 
 .button{
-    @apply bg-CuteRed mt-10 text-white py-4 px-30 rounded-4xl drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] hover:bg-red-800;
+    @apply bg-CuteRed text-white py-5 px-25 rounded-4xl drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)];
 }
 
 @theme inline {
