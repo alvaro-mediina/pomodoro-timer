@@ -21,7 +21,7 @@ function Nav() {
             <button
               type="submit"
               className="border-3 border-CuteRed text-white py-4 px-10 mt-2 rounded-xl 
-          drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] duration-300 hover:scale-105"
+          drop-shadow-[2px_2px_4px_rgba(0,0,0,0.5)] duration-300 hover:scale-105 hover:bg-CuteRed"
               onClick={() => {
                 navigate('/login');
               }}
