@@ -12,9 +12,32 @@ import Logo from '@/components/Nav/Logo';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { register } from '@/lib/authService';
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChangeEmail = (pseudoEmail: string) => {
+    setEmail(pseudoEmail);
+  };
+
+  const handleChangePassword = (pseudoPassword: string) => {
+    setPassword(pseudoPassword);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await register(email, password);
+      navigate('/');
+    } catch (error) {
+      console.error('Error al intentar registrarte: ', error);
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center gap-2">
       <Card
@@ -38,7 +61,7 @@ function RegisterPage() {
             </Button>
           </CardAction>
         </CardHeader>
-        <form className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <CardContent>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
@@ -47,6 +70,9 @@ function RegisterPage() {
                   id="email"
                   type="email"
                   placeholder="pomodoro@timer.com"
+                  onChange={(e) => {
+                    handleChangeEmail(e.target.value);
+                  }}
                   required
                 />
               </div>
@@ -54,7 +80,14 @@ function RegisterPage() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Contraseña</Label>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  onChange={(e) => {
+                    handleChangePassword(e.target.value);
+                  }}
+                  required
+                />
               </div>
             </div>
           </CardContent>
