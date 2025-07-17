@@ -1,14 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import Alarm from '@/assets/3d-alarm.png';
+import { useAuthContext } from '@/contexts/AuthContext';
 
-interface FooterProps {
-  isLogged: boolean;
-}
-
-function Footer({ isLogged }: FooterProps) {
+function Footer() {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
+
   const handleClick = () => {
-    if (isLogged) navigate('/pomodoro');
+    if (user) navigate('/pomodoro');
     else navigate('/login');
   };
 

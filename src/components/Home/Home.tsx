@@ -1,11 +1,7 @@
 import Tomato3D from './Tomato3D';
 import Footer from '../FooterHome/Footer';
 
-interface homeProps {
-  isLogged: boolean;
-}
-
-function Home({ isLogged }: homeProps) {
+function Home() {
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <main className="relative w-full flex flex-col justify-center items-center flex-grow">
@@ -20,7 +16,7 @@ function Home({ isLogged }: homeProps) {
           <Tomato3D />
         </div>
       </main>
-      <Footer isLogged={isLogged} />
+      <Footer />
     </div>
   );
 }
