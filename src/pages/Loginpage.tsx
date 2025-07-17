@@ -53,7 +53,14 @@ function LoginPage() {
             Introduce tu dirección de correo electrónico para acceder
           </CardDescription>
           <CardAction>
-            <Button variant="link">Registrarse</Button>
+            <Button
+              variant="link"
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
+              ¿No tienes cuenta?
+            </Button>
           </CardAction>
         </CardHeader>
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>

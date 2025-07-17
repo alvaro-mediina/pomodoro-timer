@@ -3,6 +3,7 @@ import Pomopage from './pages/Pomopage';
 import Homepage from './pages/Homepage';
 import './styles/App.css';
 import LoginPage from './pages/Loginpage';
+import RegisterPage from './pages/Registerpage';
 
 function App() {
   const location = useLocation();
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/pomodoro" element={<Pomopage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </main>
     </div>

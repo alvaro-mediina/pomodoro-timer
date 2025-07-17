@@ -1,6 +1,5 @@
 import Tomato3D from './Tomato3D';
 import Footer from '../FooterHome/Footer';
-import { useState } from 'react';
 
 interface homeProps {
   isLogged: boolean;
