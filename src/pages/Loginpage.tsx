@@ -14,12 +14,14 @@ import { Button } from '@/components/ui/button';
 import Logo from '@/components/Nav/Logo';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ErrorMessage from '@/components/ui/error-message';
+import { FirebaseError } from 'firebase/app';
 
 function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [error, setError] = useState('');
   const handleChangeEmail = (pseudoEmail: string) => {
     setEmail(pseudoEmail);
   };
@@ -30,11 +32,24 @@ function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
       await login(email, password);
       navigate('/');
-    } catch (error) {
-      console.error('Error al intentar iniciar sesión: ', error);
+    } catch (err) {
+      const error = err as FirebaseError;
+      console.error('Error de login:', error.code, error.message);
+      if (error.code) {
+        switch (error.code) {
+          case 'auth/invalid-credential':
+            setError('Credenciales inválidas. Verifica tu correo y contraseña.');
+            break;
+          default:
+            setError('Ocurrió un error. Intenta de nuevo.');
+        }
+      } else {
+        setError('Error inesperado. Intenta nuevamente más tarde.');
+      }
     }
   };
 
@@ -78,7 +93,7 @@ function LoginPage() {
                   required
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid">
                 <div className="flex items-center">
                   <Label htmlFor="password">Contraseña</Label>
                   <a
@@ -96,6 +111,7 @@ function LoginPage() {
                   }}
                   required
                 />
+                {error && <ErrorMessage message={error} />}
               </div>
             </div>
           </CardContent>
