@@ -14,11 +14,14 @@ import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { register } from '@/lib/authService';
+import { FirebaseError } from 'firebase/app';
+import ErrorMessage from '@/components/ui/error-message';
 
 function RegisterPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleChangeEmail = (pseudoEmail: string) => {
     setEmail(pseudoEmail);
@@ -33,8 +36,26 @@ function RegisterPage() {
     try {
       await register(email, password);
       navigate('/');
-    } catch (error) {
+    } catch (err) {
+      const error = err as FirebaseError;
       console.error('Error al intentar registrarte: ', error);
+      if (error.code) {
+        switch (error.code) {
+          case 'auth/weak-password':
+            setError('Tu contraseña debe tener mínimo 6 caracteres.');
+            break;
+          case 'auth/email-already-in-use':
+            setError('Correo electrónico ya en uso.');
+            break;
+          case 'auth/invalid-credential':
+            setError('Credenciales inválidas. Verifica tu correo y contraseña.');
+            break;
+          default:
+            setError('Ocurrió un error. Intenta de nuevo.');
+        }
+      } else {
+        setError('Error inesperado. Intenta nuevamente más tarde.');
+      }
     }
   };
 
@@ -88,6 +109,7 @@ function RegisterPage() {
                   }}
                   required
                 />
+                {error && <ErrorMessage message={error} />}
               </div>
             </div>
           </CardContent>
