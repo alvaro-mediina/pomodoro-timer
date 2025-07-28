@@ -23,6 +23,19 @@ function RegisterPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const checkStrongPassword = (password: string) => {
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    if (!(hasSpecialChar && hasLowerCase && hasUpperCase && hasNumber)) {
+      throw new FirebaseError('auth/invalid-password', 'Contraseña insegura.');
+    } else {
+      return true;
+    }
+  };
+
   const handleChangeEmail = (pseudoEmail: string) => {
     setEmail(pseudoEmail);
   };
@@ -34,13 +47,17 @@ function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await register(email, password);
-      navigate('/');
+      if (checkStrongPassword(password)) {
+        await register(email, password);
+        navigate('/');
+      }
     } catch (err) {
       const error = err as FirebaseError;
-      console.error('Error al intentar registrarte: ', error);
       if (error.code) {
         switch (error.code) {
+          case 'auth/invalid-password':
+            setError('Tu contraseña es insegura');
+            break;
           case 'auth/weak-password':
             setError('Tu contraseña debe tener mínimo 6 caracteres.');
             break;
