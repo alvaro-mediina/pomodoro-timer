@@ -57,7 +57,7 @@ function LoginPage() {
     <div className="flex flex-col justify-center items-center gap-2">
       <Card
         className="w-full max-w-sm h-[150px] flex justify-center items-center bg-CuteRed
-                  rounded-none rounded-b-xl border-none"
+                  rounded-none rounded-b-xl border-none md:h-[200px]"
       >
         <Logo offEmogis={true} />
       </Card>
