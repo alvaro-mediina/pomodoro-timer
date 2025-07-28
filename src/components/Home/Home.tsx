@@ -1,10 +1,7 @@
 import Tomato3D from './Tomato3D';
 import Footer from '../FooterHome/Footer';
-import { useState } from 'react';
 
 function Home() {
-  const [isLogged, setIsLogged] = useState(true);
-
   return (
     <div className="w-full h-full flex flex-col justify-between">
       <main className="relative w-full flex flex-col justify-center items-center flex-grow">
@@ -19,10 +16,9 @@ function Home() {
           <Tomato3D />
         </div>
       </main>
-      <Footer isLogged={isLogged}/>
+      <Footer />
     </div>
   );
 }
-
 
 export default Home;
