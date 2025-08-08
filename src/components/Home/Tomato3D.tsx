@@ -1,11 +1,10 @@
 import { useRef, useEffect, useState } from 'react';
 import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from '@react-three/drei';
+import { useLoading } from '@/contexts/LoadingContext';
 import * as THREE from 'three';
 
-const TomatoModel = () => {
-  const gltf = useLoader(GLTFLoader, '/model/tomate-model.glb');
+const TomatoModel = ({ gltf }: { gltf: THREE.Group }) => {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame(() => {
@@ -15,25 +14,26 @@ const TomatoModel = () => {
   });
 
   return (
-    <primitive
-      ref={meshRef}
-      object={gltf.scene}
-      scale={[75, 75, 75]}
-      position={[0, 0, 0]}
-    />
+    <primitive ref={meshRef} object={gltf} scale={[75, 75, 75]} position={[0, 0, 0]} />
   );
 };
 
 const Tomato3D = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [cameraSettings, setCameraSettings] = useState({ position: [0, 0, 150] as [number, number, number], fov: 40 });
+  const { setIsLoading } = useLoading();
+  const [cameraSettings, setCameraSettings] = useState({
+    position: [0, 0, 150] as [number, number, number],
+    fov: 40,
+  });
+
+  // Carga el modelo una sola vez
+  const gltf = useLoader(GLTFLoader, '/model/tomate-model.glb');
 
   useEffect(() => {
     const updateCameraSettings = () => {
       const width = window.innerWidth;
-      if(width < 640){
-        setCameraSettings({ position: [0 , 0, 130], fov: 40}); //small sm xd
-      }else if (width >= 640 && width < 768) {
+      if (width < 640) {
+        setCameraSettings({ position: [0, 0, 130], fov: 40 }); //small sm xd
+      } else if (width >= 640 && width < 768) {
         setCameraSettings({ position: [0, 0, 130], fov: 40 }); // sm
       } else if (width >= 768 && width < 1024) {
         setCameraSettings({ position: [0, 0, 100], fov: 50 }); // md
@@ -43,29 +43,34 @@ const Tomato3D = () => {
     };
 
     updateCameraSettings();
-    window.addEventListener("resize", updateCameraSettings);
+    window.addEventListener('resize', updateCameraSettings);
 
-    return () => window.removeEventListener("resize", updateCameraSettings);
+    return () => window.removeEventListener('resize', updateCameraSettings);
   }, []);
 
+  // Controla loader global al montar
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoaded(true);
-    }, 100);
-  }, []);
+    setIsLoading(true);
+  }, [setIsLoading]);
+
+  // Cuando el modelo está cargado, apaga loader con un pequeño delay
+  useEffect(() => {
+    if (gltf) {
+      const timeout = setTimeout(() => setIsLoading(false), 300);
+      return () => clearTimeout(timeout);
+    }
+  }, [gltf, setIsLoading]);
 
   return (
     <div className="w-[500px] h-[400px]">
-      <Canvas
-        className="w-full h-full"
-        camera={cameraSettings}
-      >
+      <Canvas className="w-full h-full" camera={cameraSettings}>
         <ambientLight intensity={1} />
         <directionalLight position={[5, 5, 30]} intensity={2} />
         <directionalLight position={[-5, -5, 30]} intensity={2} />
-        <hemisphereLight color={"white"} groundColor={"#555"} intensity={1.2} />
+        <hemisphereLight color={'white'} groundColor={'#555'} intensity={1.2} />
         <pointLight position={[0, 10, 0]} intensity={2} />
-        {isLoaded && <TomatoModel />}
+        {/* Pasa gltf.scene como prop */}
+        <TomatoModel gltf={gltf.scene} />
       </Canvas>
     </div>
   );

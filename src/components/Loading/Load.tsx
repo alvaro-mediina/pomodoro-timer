@@ -1,14 +1,16 @@
+import Logo from '../Nav/Logo';
+
 interface loadProps {
   color: string;
   pet: string;
 }
 
 function Load(props: loadProps) {
-  const cssVar = `--color-${props.color}`;
-
+  const cssVar: string = `--color-${props.color}`;
+  const pet: string = props.pet;
   return (
     <div
-      className="fixed inset-0 overflow-hidden"
+      className="fixed inset-0 overflow-hidden z-[9999] flex justify-center items-center"
       style={{
         backgroundColor: `var(${cssVar})`,
         width: '100vw',
@@ -16,7 +18,10 @@ function Load(props: loadProps) {
         position: 'fixed',
       }}
     >
-      <div></div>
+      <div className="w-full  flex justify-center items-center flex-col animate-fadeIn">
+        <img src={pet} width={100} height={100} />
+        <Logo offEmogis={true} />
+      </div>
     </div>
   );
 }
