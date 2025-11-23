@@ -8,7 +8,6 @@ function Pomopage() {
     const [start, setStart] = useState<Start>(false);
     const [time, setTime] = useState<PomodoroMode>(PomodoroModes.Classic);
 
-
     const startTimer = () => {
         setStart(true);
     }
@@ -23,9 +22,11 @@ function Pomopage() {
                 <Buttoner start={start} time={time} setStart={setStart} setTime={setTime} />
             </div>
             <div className="w-full h-full flex flex-col justify-center items-center">
-                {time === PomodoroModes.Flow ?
-                    (<PomoFlow start={start} />) : (<Pomodoro start={start} time={time}/>)
-                }   
+            {time === PomodoroModes.Flow ? (
+                <PomoFlow key={start ? "flow-running" : "flow-reset"} start={start} />
+            ) : (
+                <Pomodoro key={start ? "pomo-running" : "pomo-reset"} start={start} time={time} />
+            )}
                 <div className="flex justify-center p-6">
                     {
                         start
