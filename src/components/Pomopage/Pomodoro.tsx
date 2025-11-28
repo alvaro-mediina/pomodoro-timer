@@ -50,9 +50,6 @@ function Pomodoro({ start, time, onFinish, phase }:
     }, [start, onFinish]);
     return (
         <div className="flex flex-col items-center">
-            <div className="text-3xl font-semibold text-white mb-4">
-                {phase === PomodoroPhases.Work ? "Trabajo" : "Descanso"}
-            </div>
             <div className="flex justify-center items-center text-[10rem] font-[400] text-white">
             <span className="flex gap-2">
                 {`${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60)

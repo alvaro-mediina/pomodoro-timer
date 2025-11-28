@@ -5,7 +5,7 @@ import WeekStatsCard from "@/components/Pomopage/WeekStatsCard";
 import { Start, PomodoroMode, PomodoroModes, PomodoroPhases } from "@/utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { logout } from "@/lib/authService";
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import PomoFlow from "@/components/Pomopage/PomoFlow";
 import home from "@/assets/home.png";
 import exit from "@/assets/exit.png";
@@ -20,7 +20,6 @@ function Pomopage() {
     const [sessionCount, setSessionCount] = useState<number>(0);
     const [phase, setPhase] = useState<PomodoroPhases>(PomodoroPhases.Work);
     const [streak, setStreak] = useState<number>(1);
-    const [prevStreak, setPrevStreak] = useState(streak);
     const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
     const [animateStreak, setAnimateStreak] = useState(false);
     
@@ -28,21 +27,7 @@ function Pomopage() {
     const [flowElapsed, setFlowElapsed] = useState(0);
 
     const startTimer = () => setStart(true);
-    const stopTimer = () => {
-        setStart(false);
-
-        // Si estamos en modo flow, sumamos el tiempo ya registrado
-        const isFlow = time.work === 0 && time.break === 0;
-
-        if (isFlow) {
-            const minutes = Math.floor(flowElapsed / 60);
-
-            if (minutes > 0) {
-                setTotalMinutes(prev => prev + minutes);
-                setSessionCount(prev => prev + 1);
-            }
-        }
-    };
+    const stopTimer = () =>setStart(false);
     
     const handleLogout = () => {
         navigate("/");
@@ -50,6 +35,9 @@ function Pomopage() {
     };
 
     const handleFinish = (finished: PomodoroPhases) => {
+
+        if (time === PomodoroModes.Flow) return; //Si es FLOW por acá no es.
+
         if (finished === PomodoroPhases.Work) {
             const today = new Date();
 
@@ -82,15 +70,9 @@ function Pomopage() {
 
             // guardar fecha normalizada
             setLastStudyDate(new Date(todayMid).toISOString());
-
             setSessionCount(prev => prev + 1);
-            const isFlow = time.work === 0 && time.break === 0;
-            const duration = isFlow
-                ? Math.floor(flowElapsed / 60)
-                : Math.floor(time.work / 60);
 
-
-
+            const duration = Math.floor(time.work / 60);
             setTotalMinutes(prev => prev + duration);
             setPhase(PomodoroPhases.Break);
             setStart(true);
@@ -100,18 +82,49 @@ function Pomopage() {
         }
     };
 
+    const handleSaveFlow = () => {
+        const minutes = Math.floor(flowElapsed / 60);
+        if (minutes === 0) return;
 
+        const today = new Date();
 
-    useEffect(() => {
-        if (streak > prevStreak) {
-            setAnimateStreak(true);
+        // Normalizar fecha a medianoche
+        const todayMid = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+        ).getTime();
 
-            const t = setTimeout(() => setAnimateStreak(false), 5200);
-            return () => clearTimeout(t);
+        if (lastStudyDate === null) {
+            setStreak(1);
+        } else {
+            const lastMid = new Date(lastStudyDate).getTime();
+            const diffDays = (todayMid - lastMid) / (1000 * 60 * 60 * 24);
+
+            if (diffDays === 1) {
+                // Ayer → incrementar racha
+                setStreak(prev => {
+                    const next = prev + 1;
+                    setAnimateStreak(true);
+                    return next;
+                });
+            } else if (diffDays > 1) {
+                // Rompió racha
+                setStreak(1);
+            }
+            // diffDays == 0 → mismo día → no cambia racha
         }
 
-        setPrevStreak(streak);
-    }, [streak]);
+        // Guardar nueva fecha
+        setLastStudyDate(new Date(todayMid).toISOString());
+
+        // Sumar sesiones y tiempo como antes
+        setTotalMinutes(prev => prev + minutes);
+        setSessionCount(prev => prev + 1);
+
+        // Reset flow
+        setFlowElapsed(0);
+    };
 
 
     return (
@@ -173,16 +186,22 @@ function Pomopage() {
         </div>
 
             <div className="w-full h-[100px] flex justify-center items-center">
-                <Buttoner start={start} time={time} setStart={setStart} setTime={setTime} />
+                <Buttoner
+                    time={time}
+                    setStart={setStart}
+                    setTime={setTime}
+                    lockModes={ start || (time === PomodoroModes.Flow && flowElapsed >= 60)}
+                />
             </div>
             
             <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className= "flex flex-col justify-center items-center">
                 {time === PomodoroModes.Flow ? (
                     <PomoFlow
-                        key={start ? "flow-running" : "flow-reset"}
+                        key={flowElapsed === 0 ? "flow-reset" : "flow-running"}
                         start={start}
-                        onTick={(t) => setFlowElapsed(t)} />
+                        onTick={(t) => setFlowElapsed(t)}
+                    />
                 ) : (
                    <Pomodoro
                         key={start ? "pomo-running" : "pomo-reset"}
@@ -213,24 +232,50 @@ function Pomopage() {
                         }
                     `}
                 >
-                    {start ? (
-                        <button 
-                            className="button"
-                            onClick={stopTimer}
-                        >
-                            PAUSAR
+                {time === PomodoroModes.Flow ? (
+                    // ----- FLOW MODE -----
+                    start ? (
+                        <button className="button" onClick={stopTimer}>
+                            Pausar
                         </button>
                     ) : (
-                        <button 
-                            className="button"
-                            onClick={startTimer}
-                        >
-                            COMENZAR
+                        <button className="button" onClick={startTimer}>
+                            {flowElapsed > 0 ? "Reanudar" : "Comenzar"}
                         </button>
-                    )}
+                    )
+                ) : (
+                    // ----- MODOS CLÁSICOS -----
+                    start ? (
+                        <button className="button" onClick={stopTimer}>
+                            Pausar
+                        </button>
+                    ) : (
+                        <button className="button" onClick={startTimer}>
+                            Comenzar
+                        </button>
+                    )
+                )}
+                {time === PomodoroModes.Flow && !start && flowElapsed > 0 && (
+                    flowElapsed >= 60 ? (
+                        // ---- BOTÓN GUARDAR ----
+                        <button
+                            className="button ml-4"
+                            onClick={handleSaveFlow}
+                        >
+                            Guardar sesión
+                        </button>
+                    ) : (
+                        // ---- BOTÓN CANCELAR ----
+                        <button
+                            className="button ml-4 bg-red-500"
+                            onClick={() => setFlowElapsed(0)}
+                        >
+                            Cancelar Flow
+                        </button>
+                    )
+                )}
+                    
                 </div>
-                <div className="flex justify-center gap-4 mt-4">
-            </div>
         </div>
     </div>
     );

@@ -83,10 +83,10 @@ export type PomoFlowProps = {
 
 // Propiedades para la botonera
 export type ButtonerProps = {
-    start: boolean;
     time: PomodoroMode;
     setStart: React.Dispatch<React.SetStateAction<boolean>>;
-    setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>;
+    setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>,
+    lockModes: boolean;
 };
 
 // Fases del Pomodoro
