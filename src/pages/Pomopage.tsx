@@ -18,8 +18,9 @@ function Pomopage() {
     const [showPanel, setShowPanel] = useState(false);
     const [sessionCount, setSessionCount] = useState<number>(0);
     const [phase, setPhase] = useState<PomodoroPhases>(PomodoroPhases.Work);
-
-
+    const [streak, setStreak] = useState<number>(1);
+    const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
+    
     const startTimer = () => setStart(true);
     const stopTimer = () => setStart(false);
     
@@ -30,8 +31,35 @@ function Pomopage() {
 
     const handleFinish = (finished: PomodoroPhases) => {
         if (finished === PomodoroPhases.Work) {
-            const next = sessionCount + 1;
-            setSessionCount(next);
+            const today = new Date();
+
+            // Normalizar fecha a medianoche (sin horas)
+            const todayMid = new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                today.getDate()
+            ).getTime();
+
+            if (lastStudyDate === null) {
+                setStreak(1);
+            } else {
+                const lastMid = new Date(lastStudyDate).getTime();
+                const diffDays = (todayMid - lastMid) / (1000 * 60 * 60 * 24);
+
+                if (diffDays === 1) {
+                    // ayer → incrementar racha
+                    setStreak(prev => prev + 1);
+                } else if (diffDays > 1) {
+                    // faltó → reset
+                    setStreak(1);
+                }
+                // si diffDays === 0 → no cambia la racha
+            }
+
+            // guardar fecha normalizada
+            setLastStudyDate(new Date(todayMid).toISOString());
+
+            setSessionCount(prev => prev + 1);
             setPhase(PomodoroPhases.Break);
             setStart(true);
         } else {
@@ -79,7 +107,7 @@ function Pomopage() {
                     weeklySessions={12}
                     weeklyMinutes={285}
                     favoriteMode="Flow"
-                    streak={5}
+                    streak={streak}
                 />
                 
                 <button
@@ -121,7 +149,7 @@ function Pomopage() {
                         <div className="grid grid-cols-3 gap-4">
                             <StatsCard title="Sesiones" value={sessionCount} />
                             <StatsCard title="Minutos" value={45} />
-                            <StatsCard title="Favorito" value={"Flow"}/>
+                            <StatsCard title="Racha" value={streak}/>
                         </div>
                     </div>
                 </div>
