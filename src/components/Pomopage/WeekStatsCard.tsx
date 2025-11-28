@@ -3,7 +3,7 @@ import tomato  from '@/assets/0xnjt5jp.jpg';
 type WeekStatsCardProps = {
   username?: string;
   weeklySessions: number;
-  weeklyMinutes: number;
+  weeklyTime: string;
   favoriteMode: string;
   streak: number;
 };
@@ -11,7 +11,7 @@ type WeekStatsCardProps = {
 function WeekStatsCard({
   username = "Estudiante",
   weeklySessions,
-  weeklyMinutes,
+  weeklyTime,
   favoriteMode,
   streak
 }: WeekStatsCardProps) {
@@ -24,8 +24,8 @@ function WeekStatsCard({
         </div>
 
         <div className="flex flex-col gap-2 text-sm">
-            <p><span className="font-semibold">Sesiones:</span> {weeklySessions}</p>
-            <p><span className="font-semibold">Minutos:</span> {weeklyMinutes}</p>
+            <p><span className="font-semibold">Sesiones semanales:</span> {weeklySessions}</p>
+            <p><span className="font-semibold">Minutos:</span> {weeklyTime}</p>
             <p><span className="font-semibold">Modo favorito:</span> {favoriteMode}</p>
             <p><span className="font-semibold">Racha:</span> {streak} días 🔥</p>
         </div>

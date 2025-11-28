@@ -9,6 +9,7 @@ import { useState, useEffect } from "react"
 import PomoFlow from "@/components/Pomopage/PomoFlow";
 import home from "@/assets/home.png";
 import exit from "@/assets/exit.png";
+import { formatTime } from "@/utils/Utils";
 
 
 function Pomopage() {
@@ -23,8 +24,25 @@ function Pomopage() {
     const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
     const [animateStreak, setAnimateStreak] = useState(false);
     
+    const [totalMinutes, setTotalMinutes] = useState(0);
+    const [flowElapsed, setFlowElapsed] = useState(0);
+
     const startTimer = () => setStart(true);
-    const stopTimer = () => setStart(false);
+    const stopTimer = () => {
+        setStart(false);
+
+        // Si estamos en modo flow, sumamos el tiempo ya registrado
+        const isFlow = time.work === 0 && time.break === 0;
+
+        if (isFlow) {
+            const minutes = Math.floor(flowElapsed / 60);
+
+            if (minutes > 0) {
+                setTotalMinutes(prev => prev + minutes);
+                setSessionCount(prev => prev + 1);
+            }
+        }
+    };
     
     const handleLogout = () => {
         navigate("/");
@@ -66,6 +84,14 @@ function Pomopage() {
             setLastStudyDate(new Date(todayMid).toISOString());
 
             setSessionCount(prev => prev + 1);
+            const isFlow = time.work === 0 && time.break === 0;
+            const duration = isFlow
+                ? Math.floor(flowElapsed / 60)
+                : Math.floor(time.work / 60);
+
+
+
+            setTotalMinutes(prev => prev + duration);
             setPhase(PomodoroPhases.Break);
             setStart(true);
         } else {
@@ -122,8 +148,8 @@ function Pomopage() {
 
                 <WeekStatsCard
                     username="Alvaro"
-                    weeklySessions={12}
-                    weeklyMinutes={285}
+                    weeklySessions={sessionCount}
+                    weeklyTime={formatTime(totalMinutes)}
                     favoriteMode="Flow"
                     streak={streak}
                 />
@@ -153,7 +179,10 @@ function Pomopage() {
             <div className="w-full h-full flex flex-col justify-center items-center">
                 <div className= "flex flex-col justify-center items-center">
                 {time === PomodoroModes.Flow ? (
-                    <PomoFlow key={start ? "flow-running" : "flow-reset"} start={start} />
+                    <PomoFlow
+                        key={start ? "flow-running" : "flow-reset"}
+                        start={start}
+                        onTick={(t) => setFlowElapsed(t)} />
                 ) : (
                    <Pomodoro
                         key={start ? "pomo-running" : "pomo-reset"}
@@ -166,7 +195,7 @@ function Pomopage() {
                     <div className="w-full max-w-md">
                         <div className="grid grid-cols-3 gap-4">
                             <StatsCard title="Sesiones" value={sessionCount} />
-                            <StatsCard title="Minutos" value={45} />
+                            <StatsCard title="Tiempo Total" value={formatTime(totalMinutes)} />
                             <StatsCard title="Racha" value={streak} isStreak animate={animateStreak} />
                         </div>
                     </div>

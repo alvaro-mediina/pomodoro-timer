@@ -78,6 +78,7 @@ export type PomodoroProps = {
 
 export type PomoFlowProps = {
     start: Start;
+    onTick?: (time: number) => void;
 }
 
 // Propiedades para la botonera
