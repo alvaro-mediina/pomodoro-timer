@@ -5,7 +5,7 @@ import WeekStatsCard from "@/components/Pomopage/WeekStatsCard";
 import { Start, PomodoroMode, PomodoroModes, PomodoroPhases } from "@/utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { logout } from "@/lib/authService";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import PomoFlow from "@/components/Pomopage/PomoFlow";
 import home from "@/assets/home.png";
 import exit from "@/assets/exit.png";
@@ -19,7 +19,9 @@ function Pomopage() {
     const [sessionCount, setSessionCount] = useState<number>(0);
     const [phase, setPhase] = useState<PomodoroPhases>(PomodoroPhases.Work);
     const [streak, setStreak] = useState<number>(1);
+    const [prevStreak, setPrevStreak] = useState(streak);
     const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
+    const [animateStreak, setAnimateStreak] = useState(false);
     
     const startTimer = () => setStart(true);
     const stopTimer = () => setStart(false);
@@ -48,7 +50,11 @@ function Pomopage() {
 
                 if (diffDays === 1) {
                     // ayer → incrementar racha
-                    setStreak(prev => prev + 1);
+                    setStreak((prev) => {
+                        const newStreak = prev + 1;
+                        setAnimateStreak(true);
+                        return newStreak;
+                    });
                 } else if (diffDays > 1) {
                     // faltó → reset
                     setStreak(1);
@@ -68,6 +74,18 @@ function Pomopage() {
         }
     };
 
+
+
+    useEffect(() => {
+        if (streak > prevStreak) {
+            setAnimateStreak(true);
+
+            const t = setTimeout(() => setAnimateStreak(false), 5200);
+            return () => clearTimeout(t);
+        }
+
+        setPrevStreak(streak);
+    }, [streak]);
 
 
     return (
@@ -149,7 +167,7 @@ function Pomopage() {
                         <div className="grid grid-cols-3 gap-4">
                             <StatsCard title="Sesiones" value={sessionCount} />
                             <StatsCard title="Minutos" value={45} />
-                            <StatsCard title="Racha" value={streak}/>
+                            <StatsCard title="Racha" value={streak} isStreak animate={animateStreak} />
                         </div>
                     </div>
                 </div>
@@ -182,8 +200,10 @@ function Pomopage() {
                         </button>
                     )}
                 </div>
+                <div className="flex justify-center gap-4 mt-4">
             </div>
         </div>
+    </div>
     );
 }
 
