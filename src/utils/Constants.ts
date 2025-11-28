@@ -72,6 +72,8 @@ export enum PomodoroPhases {
 export type PomodoroProps = {
     start: Start;
     time: PomodoroMode;
+    phase: PomodoroPhases;
+    onFinish?: (finished: PomodoroPhases) => void
 }
 
 export type PomoFlowProps = {

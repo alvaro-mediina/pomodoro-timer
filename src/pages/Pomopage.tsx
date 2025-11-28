@@ -2,7 +2,7 @@ import Pomodoro from "@/components/Pomopage/Pomodoro";
 import Buttoner from "@/components/Pomopage/Buttoner/Buttoner";
 import StatsCard from "@/components/Pomopage/StatsCard";
 import WeekStatsCard from "@/components/Pomopage/WeekStatsCard";
-import { Start, PomodoroMode, PomodoroModes } from "@/utils/Constants";
+import { Start, PomodoroMode, PomodoroModes, PomodoroPhases } from "@/utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { logout } from "@/lib/authService";
 import { useState } from "react"
@@ -16,6 +16,9 @@ function Pomopage() {
     const [start, setStart] = useState<Start>(false);
     const [time, setTime] = useState<PomodoroMode>(PomodoroModes.Classic);
     const [showPanel, setShowPanel] = useState(false);
+    const [sessionCount, setSessionCount] = useState<number>(0);
+    const [phase, setPhase] = useState<PomodoroPhases>(PomodoroPhases.Work);
+
 
     const startTimer = () => setStart(true);
     const stopTimer = () => setStart(false);
@@ -24,6 +27,21 @@ function Pomopage() {
         navigate("/");
         logout();
     };
+
+    const handleFinish = (finished: PomodoroPhases) => {
+        if (finished === PomodoroPhases.Work) {
+            const next = sessionCount + 1;
+            setSessionCount(next);
+            setPhase(PomodoroPhases.Break);
+            setStart(true);
+        } else {
+            setPhase(PomodoroPhases.Work);
+            setStart(false);
+        }
+    };
+
+
+
     return (
         <div className="w-screen h-screen bg-background flex flex-col relative overflow-hidden">
 
@@ -91,12 +109,18 @@ function Pomopage() {
                 {time === PomodoroModes.Flow ? (
                     <PomoFlow key={start ? "flow-running" : "flow-reset"} start={start} />
                 ) : (
-                    <Pomodoro key={start ? "pomo-running" : "pomo-reset"} start={start} time={time} />
+                   <Pomodoro
+                        key={start ? "pomo-running" : "pomo-reset"}
+                        start={start}
+                        time={time}
+                        onFinish={handleFinish}
+                        phase={phase}
+                    />
                 )}
                     <div className="w-full max-w-md">
                         <div className="grid grid-cols-3 gap-4">
-                            <StatsCard title="Sesiones" value={20} />
-                            <StatsCard title="Minutos" value={500} />
+                            <StatsCard title="Sesiones" value={sessionCount} />
+                            <StatsCard title="Minutos" value={45} />
                             <StatsCard title="Favorito" value={"Flow"}/>
                         </div>
                     </div>
@@ -104,12 +128,32 @@ function Pomopage() {
 
                 
             </div>
-            <div className="flex justify-center p-6">
-                {
-                    start
-                        ? (<button className="button" onClick={stopTimer}>PAUSAR</button>)
-                        : (<button className="button" onClick={startTimer}>COMENZAR</button>)    
-                }
+            <div className="flex justify-center p-6 overflow-hidden">
+                <div
+                    className={`
+                        transition-all duration-500
+                        ${phase === PomodoroPhases.Break 
+                            ? "opacity-0 translate-y-10 pointer-events-none"
+                            : "opacity-100 translate-y-0"
+                        }
+                    `}
+                >
+                    {start ? (
+                        <button 
+                            className="button"
+                            onClick={stopTimer}
+                        >
+                            PAUSAR
+                        </button>
+                    ) : (
+                        <button 
+                            className="button"
+                            onClick={startTimer}
+                        >
+                            COMENZAR
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
