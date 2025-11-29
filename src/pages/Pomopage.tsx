@@ -10,10 +10,12 @@ import PomoFlow from "@/components/Pomopage/PomoFlow";
 import home from "@/assets/home.png";
 import exit from "@/assets/exit.png";
 import { formatTime } from "@/utils/Utils";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 
 function Pomopage() {
     const navigate = useNavigate();
+    const { profile } = useAuthContext();
     const [start, setStart] = useState<Start>(false);
     const [time, setTime] = useState<PomodoroMode>(PomodoroModes.Classic);
     const [showPanel, setShowPanel] = useState(false);
@@ -160,10 +162,9 @@ function Pomopage() {
                 </button>
 
                 <WeekStatsCard
-                    username="Alvaro"
+                    username={profile?.username}
                     weeklySessions={sessionCount}
                     weeklyTime={formatTime(totalMinutes)}
-                    favoriteMode="Flow"
                     streak={streak}
                 />
                 
@@ -222,7 +223,7 @@ function Pomopage() {
 
                 
             </div>
-            <div className="flex justify-center p-6 overflow-hidden">
+            <div className="flex justify-center p-6 overflow-hidden mb-3">
                 <div
                     className={`
                         transition-all duration-500

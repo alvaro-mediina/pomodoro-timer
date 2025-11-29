@@ -4,15 +4,13 @@ type WeekStatsCardProps = {
   username?: string;
   weeklySessions: number;
   weeklyTime: string;
-  favoriteMode: string;
   streak: number;
 };
 
 function WeekStatsCard({
-  username = "Estudiante",
+  username,
   weeklySessions,
   weeklyTime,
-  favoriteMode,
   streak
 }: WeekStatsCardProps) {
     return (
@@ -26,7 +24,6 @@ function WeekStatsCard({
         <div className="flex flex-col gap-2 text-sm">
             <p><span className="font-semibold">Sesiones semanales:</span> {weeklySessions}</p>
             <p><span className="font-semibold">Minutos:</span> {weeklyTime}</p>
-            <p><span className="font-semibold">Modo favorito:</span> {favoriteMode}</p>
             <p><span className="font-semibold">Racha:</span> {streak} días 🔥</p>
         </div>
 
