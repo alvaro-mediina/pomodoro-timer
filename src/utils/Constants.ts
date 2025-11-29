@@ -72,18 +72,21 @@ export enum PomodoroPhases {
 export type PomodoroProps = {
     start: Start;
     time: PomodoroMode;
+    phase: PomodoroPhases;
+    onFinish?: (finished: PomodoroPhases) => void
 }
 
 export type PomoFlowProps = {
     start: Start;
+    onTick?: (time: number) => void;
 }
 
 // Propiedades para la botonera
 export type ButtonerProps = {
-    start: boolean;
     time: PomodoroMode;
     setStart: React.Dispatch<React.SetStateAction<boolean>>;
-    setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>;
+    setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>,
+    lockModes: boolean;
 };
 
 // Fases del Pomodoro

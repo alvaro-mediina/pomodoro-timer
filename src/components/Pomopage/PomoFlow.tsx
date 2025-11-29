@@ -2,7 +2,7 @@ import { PomoFlowProps } from "@/utils/Constants"
 import { useEffect, useRef, useState } from "react"
 
 
-function PomoFlow({ start }: PomoFlowProps) {
+function PomoFlow({ start, onTick }: PomoFlowProps) {
     const [elapsedTime, setElapsedTime] = useState(0);
     const intervalRef = useRef<number | null>(null);
 
@@ -11,7 +11,11 @@ function PomoFlow({ start }: PomoFlowProps) {
         if (start && intervalRef.current === null) {
             // Iniciar el temporizador
             intervalRef.current = window.setInterval(() => {
-                setElapsedTime(prev => prev + 1);
+                setElapsedTime(prev => {
+                    const next = prev + 1;
+                    if (onTick) onTick(next);
+                    return next;
+                });
             }, 1000);
         }
 

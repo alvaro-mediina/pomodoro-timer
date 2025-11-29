@@ -2,31 +2,40 @@ import { useEffect, useRef, useState } from "react";
 import type { PomodoroProps } from "@/utils/Constants";
 import { PomodoroPhases } from "@/utils/Constants";
 
-function Pomodoro({ start, time }: PomodoroProps) {
-    const [timeLeft, setTimeLeft] = useState(time.work);
-    const [phase, setPhase] = useState<PomodoroPhases>(PomodoroPhases.Work);
-    const [completedSession, setCompletedSession] = useState(0);
+function Pomodoro({ start, time, onFinish, phase }:
+    PomodoroProps & { onFinish?: (phaseFinished: PomodoroPhases) => void }) {
+
+    const [timeLeft, setTimeLeft] = useState(
+        phase === PomodoroPhases.Work ? time.work : time.break
+    );
+
     const intervalRef = useRef<number | null>(null);
+    const phaseRef = useRef<PomodoroPhases>(phase);
+    useEffect(() => { phaseRef.current = phase; }, [phase]);
 
-
-    // Resetea el tiempo cuando cambia el modo y no está corriendo
+    // Reset de tiempo cuando cambia fase desde el padre
     useEffect(() => {
-        if (!start) {
         setTimeLeft(phase === PomodoroPhases.Work ? time.work : time.break);
-        }
-    }, [time, phase, start]);
+    }, [phase, time]);
 
-    //Lógica del timer
+    // Timer
     useEffect(() => {
         if (!start) return;
-        if (intervalRef.current !== null) return;
+        if (intervalRef.current !== null) return; 
 
-        // Restar 1 segundo
         intervalRef.current = window.setInterval(() => {
             setTimeLeft(prev => {
-                if (prev === 0) {
-                    handlePhaseSwitch();
-                    return 0; // Esperamos a que el switch setee el tiempo
+                if (prev <= 1) {
+                    const finishedPhase = phaseRef.current;
+
+                    // Detener timer para evitar loops
+                    clearInterval(intervalRef.current!);
+                    intervalRef.current = null;
+
+                    // Avisar al padre
+                    if (onFinish) onFinish(finishedPhase);
+
+                    return 0;
                 }
                 return prev - 1;
             });
@@ -38,28 +47,10 @@ function Pomodoro({ start, time }: PomodoroProps) {
                 intervalRef.current = null;
             }
         };
-    }, [start]);
-
-    // Manejo de la Fase Work o Break
-    const handlePhaseSwitch = () => {
-        setPhase(prevPhase => {
-            const nextPhase =
-            prevPhase === PomodoroPhases.Work
-                ? PomodoroPhases.Break
-                : PomodoroPhases.Work;
-
-            if (prevPhase === PomodoroPhases.Work) {
-            setCompletedSession(prev => prev + 1);
-            }
-
-            setTimeLeft(nextPhase === PomodoroPhases.Work ? time.work : time.break);
-            return nextPhase;
-        });
-    };
-
+    }, [start, onFinish]);
     return (
-        <div>
-        <div className="flex justify-center items-center text-[10rem] font-[400] text-white">
+        <div className="flex flex-col items-center">
+            <div className="flex justify-center items-center text-[10rem] font-[400] text-white">
             <span className="flex gap-2">
                 {`${String(Math.floor(timeLeft / 60)).padStart(2, "0")}:${String(timeLeft % 60)
                     .padStart(2, "0")}`
