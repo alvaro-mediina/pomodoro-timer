@@ -16,14 +16,6 @@ const getStreakIcon = (value: number) => {
     return "🥊";
 }; 
 
-
-const streakColor = (value: number) => {
-    if (value >= 14) return "from-purple-500 to-red-500";
-    if (value >= 7) return "from-red-500 to-orange-400";
-    if (value >= 3) return "from-orange-400 to-yellow-300";
-    return "from-gray-600 to-gray-800";
-};
-
 const streakStyles = (value: number): StreakStyles => {
   if (value >= 14) return {
     gradient: "from-purple-500 to-red-500",
