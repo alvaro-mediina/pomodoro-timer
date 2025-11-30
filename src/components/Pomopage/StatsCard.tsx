@@ -39,27 +39,40 @@ const streakStyles = (value: number): StreakStyles => {
 
 function StatsCard({ title, value, isStreak = false, animate = false }: StatsCardProps) {
   const styles: StreakStyles | null = isStreak ? streakStyles(value as number) : null;
+
   return (
     <div
       className={`
-      p-4 rounded-xl shadow-md
-      ${isStreak ? `text-white bg-gradient-to-br ${styles?.gradient}` : "bg-secondary"}
-      ${animate && isStreak ? "animate-streak-pulse" : ""}
+        p-4 rounded-2xl border border-white/10
+        transition-all duration-300 text-white
+        bg-white/5
+        
+        ${isStreak ? `
+          bg-gradient-to-br ${styles?.gradient}
+          shadow-[0_0_12px_var(--glow-color)]
+        ` : `
+          shadow-[0_0_8px_rgba(255,255,255,0.05)]
+        `}
+
+        ${animate ? "glow-pulse" : ""}
       `}
-      style={{
-        "--glow-color": styles?.glow,
-      } as React.CSSProperties}
+      style={{ "--glow-color": styles?.glow } as any}
     >
-      <p className="text-sm opacity-80">{title}</p>
+      <p className="text-sm opacity-80 drop-shadow-[0_0_4px_var(--glow-color)]">
+        {title}
+      </p>
 
       <div className="flex items-center justify-center gap-2 mt-1">
         <span className="text-3xl font-bold">{value}</span>
         {isStreak && (
-          <span className="text-2xl leading-none">{getStreakIcon(value as number)}</span>
+          <span className="text-2xl leading-none">
+            {getStreakIcon(value as number)}
+          </span>
         )}
       </div>
     </div>
-    );
+  );
 }
+
 
 export default StatsCard;

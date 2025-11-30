@@ -2,6 +2,7 @@ import Pomodoro from "@/components/Pomopage/Pomodoro";
 import Buttoner from "@/components/Pomopage/Buttoner/Buttoner";
 import StatsCard from "@/components/Pomopage/StatsCard";
 import WeekStatsCard from "@/components/Pomopage/WeekStatsCard";
+import ModeInfoCard from "@/components/Pomopage/ModeInfoCard";
 import { Start, PomodoroMode, PomodoroModes, PomodoroPhases } from "@/utils/Constants";
 import { useNavigate } from "react-router-dom";
 import { logout } from "@/lib/authService";
@@ -27,6 +28,9 @@ function Pomopage() {
     
     const [totalMinutes, setTotalMinutes] = useState(0);
     const [flowElapsed, setFlowElapsed] = useState(0);
+
+    const [showModeInfo, setShowModeInfo] = useState(true);
+
 
     const startTimer = () => setStart(true);
     const stopTimer = () =>setStart(false);
@@ -128,9 +132,23 @@ function Pomopage() {
         setFlowElapsed(0);
     };
 
+    const handleTimeChange = (newTime: PomodoroMode) => {
+        setTime(newTime);
+        setShowModeInfo(true); // <- mostrar cuadro automáticamente
+    };
+
 
     return (
         <div className="w-screen h-screen bg-background flex flex-col relative overflow-hidden">
+
+        {showModeInfo && (
+            <ModeInfoCard 
+                mode={time} 
+                onClose={() => setShowModeInfo(false)} 
+            />
+        )}
+
+            
 
         <div
             className={`
@@ -190,7 +208,7 @@ function Pomopage() {
                 <Buttoner
                     time={time}
                     setStart={setStart}
-                    setTime={setTime}
+                    setTime={handleTimeChange}
                     lockModes={ start || (time === PomodoroModes.Flow && flowElapsed >= 60)}
                 />
             </div>

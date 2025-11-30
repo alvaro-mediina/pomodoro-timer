@@ -81,14 +81,64 @@ export type PomoFlowProps = {
     onTick?: (time: number) => void;
 }
 
-// Propiedades para la botonera
-export type ButtonerProps = {
-    time: PomodoroMode;
-    setStart: React.Dispatch<React.SetStateAction<boolean>>;
-    setTime: React.Dispatch<React.SetStateAction<PomodoroMode>>,
-    lockModes: boolean;
-};
 
 // Fases del Pomodoro
 export type Phase = "work" | "break"
 
+//Información de modos
+export const ModeInfo = {
+    Classic: {
+        name: "Clásico (25/5)",
+        desc: "El método Pomodoro tradicional. Ideal para mantener constancia sin agotarte.",
+        work: PomodoroModes.Classic.work,
+        break: PomodoroModes.Classic.break,
+        details: [
+            "25 minutos de foco intenso",
+            "5 minutos de descanso",
+            "Se recomiendan ciclos de 4 antes de un descanso largo"
+        ]
+    },
+
+    Intense: {
+        name: "Intensive Work (50/10)",
+        desc: "Para sesiones largas de concentración sin interrupciones. Exigente para el cerebro.",
+        work: PomodoroModes.Intense.work,
+        break: PomodoroModes.Intense.break,
+        details: [
+            "50 minutos de trabajo continuo",
+            "10 minutos de descanso profundo",
+            "Ideal para tareas largas o complejas"
+        ]
+    },
+
+    Muse: {
+        name: "The Muse (52/17)",
+        desc: "Basado en el método 52/17. Estudios sugieren que 52 min de foco + 17 min de descanso maximizan productividad.",
+        work: PomodoroModes.Muse.work,
+        break: PomodoroModes.Muse.break,
+        details: [
+            "52 minutos de trabajo sostenido",
+            "17 minutos de descanso real para reiniciar",
+            "Útil para largas jornadas creativas o cognitivas"
+        ]
+    },
+
+    Flow: {
+        name: "Flow Mode",
+        desc: "Un modo libre sin temporizador fijo. Trabaja hasta que pierdas el flow y guarda tu sesión.",
+        work: 0,
+        break: 0,
+        details: [
+            "Tú decides cuando parar",
+            "Cuenta minutos reales trabajados",
+            "Ideal para estudiar sin estructura estricta"
+        ]
+    }
+} as const;
+
+export const ModeKeys = {
+    [PomodoroModes.Classic.work]: "Classic",
+    [PomodoroModes.Intense.work]: "Intense",
+    [PomodoroModes.Muse.work]: "Muse",
+    [PomodoroModes.Flow.work]: "Flow",
+} as const;
