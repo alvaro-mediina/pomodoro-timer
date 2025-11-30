@@ -4,13 +4,17 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { getUserProfile } from '@/lib/firestore/users';
 import { auth } from '@/../firebase'; // tu config
 
-const AuthContext = createContext<{
+type AuthContextType = {
   user: User | null;
   profile: any | null;
-}>({
+  setProfile: React.Dispatch<React.SetStateAction<any | null>>;
+};
+
+const AuthContext = createContext<AuthContextType>({
   user: null,
-  profile: null
-});
+  profile: null,
+  setProfile: () => {}, // fallback
+})
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -30,7 +34,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, profile }}>
+    <AuthContext.Provider value={{ user, profile, setProfile }}>
       {children}
     </AuthContext.Provider>
   );
