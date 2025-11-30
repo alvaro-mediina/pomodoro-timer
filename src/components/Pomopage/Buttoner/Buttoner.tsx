@@ -1,8 +1,16 @@
-import { ButtonerProps, PomodoroModes } from "@/utils/Constants";
+import { PomodoroMode, PomodoroModes } from "@/utils/Constants";
 import { Button } from "../../ui/button";
 
-function Buttoner({ time, setTime, lockModes }: ButtonerProps) {
+// Propiedades para la botonera
+export type ButtonerProps = {
+    time: PomodoroMode;
+    setStart: React.Dispatch<React.SetStateAction<boolean>>;
+    setTime: (newTime: PomodoroMode) => void; 
+    lockModes: boolean;
+};
 
+function Buttoner({ time, setTime, lockModes }: ButtonerProps) {
+    
     const classicConfig = () => {
         if (time === PomodoroModes.Classic) return;
         setTime(PomodoroModes.Classic);
