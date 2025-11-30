@@ -129,7 +129,7 @@ export const ModeInfo = {
         work: 0,
         break: 0,
         details: [
-            "Sin tiempo predeterminado",
+            "Tú decides cuando parar",
             "Cuenta minutos reales trabajados",
             "Ideal para estudiar sin estructura estricta"
         ]
