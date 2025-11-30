@@ -236,6 +236,27 @@ function Pomopage() {
                             <StatsCard title="Tiempo Total" value={formatTime(totalMinutes)} />
                             <StatsCard title="Racha" value={streak} isStreak animate={animateStreak} />
                         </div>
+                        <div className="flex justify-center gap-4 mt-4">
+                            <button
+                                onClick={() => {
+                                    setAnimateStreak(false);   // reinicia la animación
+                                    requestAnimationFrame(() => {
+                                        setStreak(prev => prev + 1);
+                                        setAnimateStreak(true);
+                                    });
+                                }}
+                                className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                            >
+                                + Racha
+                            </button>
+
+                            <button
+                                onClick={() => setStreak(prev => Math.max(1, prev - 1))}
+                                className="px-3 py-1 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                            >
+                                - Racha
+                            </button>
+                            </div>
                     </div>
                 </div>
 
