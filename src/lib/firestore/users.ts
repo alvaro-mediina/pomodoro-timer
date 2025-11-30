@@ -1,4 +1,4 @@
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/../firebase";
 
 export interface UserProfile {
@@ -20,4 +20,9 @@ export const getUserProfile = async (uid: string) => {
     console.log("No such document!", uid);
     return null;
   }
+};
+
+export async function updateUserProfile (uid: string, newUsername: string){
+  const userRef = doc(db, "users", uid);
+  await updateDoc(userRef, { username: newUsername });
 };
