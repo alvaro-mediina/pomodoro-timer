@@ -1,51 +1,52 @@
 import { PomodoroMode, PomodoroModes } from "@/utils/Constants";
 import { Button } from "../../ui/button";
 
-// Propiedades para la botonera
 export type ButtonerProps = {
-    time: PomodoroMode;
-    setStart: React.Dispatch<React.SetStateAction<boolean>>;
-    setTime: (newTime: PomodoroMode) => void; 
-    lockModes: boolean;
+  time: PomodoroMode;
+  setStart: React.Dispatch<React.SetStateAction<boolean>>;
+  setTime: (newTime: PomodoroMode) => void;
+  lockModes: boolean;
 };
 
 function Buttoner({ time, setTime, lockModes }: ButtonerProps) {
-    
-    const classicConfig = () => {
-        if (time === PomodoroModes.Classic) return;
-        setTime(PomodoroModes.Classic);
-    };
+  const modes = [
+    { label: "Clásico", value: PomodoroModes.Classic, color: "CuteRed" },
+    { label: "Intenso", value: PomodoroModes.Intense, color: "CuteGold" },
+    { label: "The Muse", value: PomodoroModes.Muse, color: "CuteFuchsia" },
+    { label: "Modo Flow", value: PomodoroModes.Flow, color: "CuteGreen" },
+  ];
 
-    const intenseConfig = () => {
-        if (time === PomodoroModes.Intense) return;
-        setTime(PomodoroModes.Intense);
-    };
+  return (
+    <div className="flex flex-wrap gap-3">
+      {modes.map((m) => {
+        const isActive = time === m.value;
 
-    const museConfig = () => {
-        if (time === PomodoroModes.Muse) return;
-        setTime(PomodoroModes.Muse);
-    };
+        return (
+            <Button
+                variant="ghost"
+                disabled={lockModes}
+                onClick={() => !isActive && setTime(m.value)}
+                className={`
+                    relative px-6 py-3 rounded-xl font-bold tracking-wide
+                    transition-all duration-200
+                    border border-white/10
+                    text-white hover:text-white
 
-    const flowConfig = () => {
-        if (time === PomodoroModes.Flow) return;
-        setTime(PomodoroModes.Flow);
-    };
+                    ${isActive ? "scale-[1.10]" : "opacity-80 hover:opacity-100"}
+                    bg-${m.color}
+                    hover:bg-${m.color}/80
+                    active:scale-95
 
-    return (
-        <div className="flex flex-wrap items-center gap-2 md:flex-row">
-            <Button className="bg-CuteRed" disabled={lockModes} onClick={classicConfig}>
-                Clásico
-            </Button>
-            <Button className="bg-CuteGold" disabled={lockModes} onClick={intenseConfig}>
-                Intenso
-            </Button>
-            <Button className="bg-CuteFuchsia" disabled={lockModes} onClick={museConfig}>
-                The Muse
-            </Button>
-            <Button className="bg-CuteGreen" disabled={lockModes} onClick={flowConfig}>
-                Modo Flow
-            </Button>
-        </div>
-    );
+                    shadow-[0_0_10px_color-mix(in_oklab,var(--color-${m.color})_50%,transparent)]
+                    hover:shadow-[0_0_14px_color-mix(in_oklab,var(--color-${m.color})_70%,transparent)]
+                `}
+            >
+            {m.label}
+          </Button>
+        );
+      })}
+    </div>
+  );
 }
-export default Buttoner
+
+export default Buttoner;
