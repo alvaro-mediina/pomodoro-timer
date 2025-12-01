@@ -1,7 +1,7 @@
 import { PomodoroMode, PomodoroModes } from "@/utils/Constants";
 import { Button } from "../../ui/button";
 
-export type ButtonerProps = {
+type ButtonerProps = {
   time: PomodoroMode;
   setStart: React.Dispatch<React.SetStateAction<boolean>>;
   setTime: (newTime: PomodoroMode) => void;
