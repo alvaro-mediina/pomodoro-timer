@@ -20,7 +20,7 @@ function Footer() {
           width={80}
           alt="Alarm"
         />
-        <button className="button">COMENZAR</button>
+        <button className="button lg:w-[350px] lg:h-[70px]">COMENZAR</button>
       </div>
     </div>
   );
